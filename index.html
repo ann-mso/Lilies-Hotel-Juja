@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lilies Hotel & Guest Rooms — Nairobi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --sky: #0d94ed; --sky-mid: #f12906; --sky-deep: #2a7da8; --sky-dark: #1a5573;
+  --brown: #8b5e3c; --brown-light: #f5ebe0; --brown-dark: #5c3d22;
+  --green: #275ef7; --green-light: #e8f5ea; --green-mid: #c16d05; --green-dark: #3190de;
+  --white: #ffffff; --off-white: #f8fbfd; --text: #2c2016; --muted: #6b5744;
+  --border: #c8e4f0; --accent: #e8a44a; --orange: #e07b2a;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Nunito', sans-serif; background: var(--off-white); color: var(--text); line-height: 1.7; }
+
+/* ===== MANAGEMENT BANNER ===== */
+.mgmt-banner {
+  background: linear-gradient(90deg, #bc7503, #1e6b35, #e19302);
+  color: #13d5e3; text-align: center; padding: .6rem 1rem;
+  font-size: .82rem; letter-spacing: .06em; font-weight: 600; z-index: 300; position: relative;
+}
+.mgmt-banner .pill { background: var(--accent); color: #fff; padding: .15rem .75rem; border-radius: 20px; font-size: .72rem; font-weight: 800; margin-right: .6rem; }
+.mgmt-banner em { font-style: normal; color: #b8f5c4; }
+
+/* ===== NAV ===== */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .85rem 3rem;
+  background: rgba(255,255,255,.97); backdrop-filter: blur(12px);
+  border-bottom: 2px solid var(--border);
+  box-shadow: 0 2px 18px rgba(42,125,168,.1);
+}
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 1.55rem; font-weight: 700; color: var(--sky-dark); text-decoration: none; display: flex; align-items: center; gap: .4rem; }
+.nav-logo .lily { color: var(--green); font-style: italic; }
+.nav-logo .tagline { font-size: .6rem; font-family: 'Nunito', sans-serif; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; font-weight: 600; margin-top: .15rem; display: block; }
+.nav-links { display: flex; gap: 1.8rem; list-style: none; }
+.nav-links a { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-decoration: none; font-weight: 700; transition: color .2s; position: relative; padding-bottom: 3px; }
+.nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--sky-deep); transform: scaleX(0); transition: transform .2s; }
+.nav-links a:hover { color: var(--sky-deep); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-actions { display: flex; gap: .6rem; align-items: center; }
+.nav-phone { background: var(--sky-deep); color: #fff; border: none; border-radius: 8px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; text-decoration: none; transition: background .2s; }
+.nav-phone:hover { background: var(--sky-dark); }
+.nav-book { background: var(--green); color: #fff; padding: .55rem 1.5rem; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; border: none; cursor: pointer; font-family: 'Nunito', sans-serif; font-weight: 700; border-radius: 30px; transition: background .2s; }
+.nav-book:hover { background: var(--green-dark); }
+.hamburger { background: var(--sky-dark); border: none; border-radius: 8px; width: 40px; height: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; }
+.hamburger span { display: block; width: 18px; height: 2px; background: #fff; border-radius: 2px; }
+
+/* ===== SIDE MENU ===== */
+.side-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 400; }
+.side-overlay.open { display: block; }
+.side-menu { position: fixed; top: 0; right: -360px; width: 320px; height: 100%; z-index: 500; background: #071a0f; overflow-y: auto; transition: right .35s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; }
+.side-menu.open { right: 0; }
+.side-header { display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 1.5rem; background: #040e08; border-bottom: 1px solid rgba(255,255,255,.1); }
+.side-logo { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--sky-mid); font-weight: 700; }
+.side-logo span { color: var(--green-mid); font-style: italic; }
+.side-close { background: rgba(255,255,255,.1); border: none; color: #fff; width: 34px; height: 34px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.side-close:hover { background: rgba(255,255,255,.2); }
+.side-sec { padding: 1.4rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+.side-sec h4 { font-size: .67rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin-bottom: .9rem; font-weight: 700; }
+.side-links { list-style: none; display: flex; flex-direction: column; gap: .15rem; }
+.side-links li a { display: flex; align-items: center; gap: .65rem; padding: .6rem .75rem; color: rgba(255,255,255,.8); text-decoration: none; font-size: .9rem; font-weight: 500; border-radius: 8px; transition: background .2s, color .2s; }
+.side-links li a:hover { background: rgba(255,255,255,.08); color: var(--sky-mid); }
+.side-links .ico { font-size: .95rem; width: 18px; text-align: center; }
+.side-social-sec { padding: 1.4rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+.side-social-sec h4 { font-size: .67rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin-bottom: .9rem; font-weight: 700; }
+.soc-icons { display: flex; gap: .7rem; margin-bottom: .7rem; flex-wrap: wrap; }
+.soc-ico { width: 42px; height: 42px; border: 1px solid rgba(255,255,255,.18); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.65); text-decoration: none; transition: all .2s; }
+.soc-ico:hover { border-color: var(--sky-mid); color: var(--sky-mid); background: rgba(137,196,225,.1); }
+.soc-ico svg { width: 17px; height: 17px; fill: currentColor; }
+.hashtag { font-size: .84rem; color: var(--green-mid); font-weight: 600; font-style: italic; }
+.nl-sec { padding: 1.4rem 1.5rem 2rem; }
+.nl-sec h4 { font-size: .67rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin-bottom: .7rem; font-weight: 700; }
+.nl-sec p { font-size: .8rem; color: rgba(255,255,255,.45); margin-bottom: .9rem; }
+.nl-form { display: flex; flex-direction: column; gap: .55rem; }
+.nl-form input { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); color: #fff; padding: .6rem .85rem; font-family: 'Nunito', sans-serif; font-size: .86rem; border-radius: 8px; outline: none; }
+.nl-form input::placeholder { color: rgba(255,255,255,.28); }
+.nl-form input:focus { border-color: var(--accent); }
+.nl-form button { background: var(--accent); color: #fff; border: none; padding: .62rem; font-family: 'Nunito', sans-serif; font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; border-radius: 8px; cursor: pointer; transition: background .2s; }
+.nl-form button:hover { background: #f7ce05; }
+.nl-done { display: none; color: var(--green-mid); font-size: .84rem; text-align: center; padding: .5rem; }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh; position: relative; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 6rem 2rem 5rem;
+}
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('building.png') center/cover no-repeat;
+}
+
+.hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(10,50,30,.72) 0%, rgba(20,60,80,.65) 100%); }
+.hero-new-badge { position: relative; z-index: 2; background: var(--accent); color: #fff; font-size: .76rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; padding: .42rem 1.5rem; border-radius: 30px; margin-bottom: 1.3rem; display: inline-flex; align-items: center; gap: .5rem; box-shadow: 0 4px 20px rgba(232,164,74,.5); animation: pulse 2.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{box-shadow:0 4px 18px rgba(232,164,74,.45)} 50%{box-shadow:0 6px 30px rgba(231, 12, 12, 0.8)} }
+.hero-badge { position: relative; z-index: 2; font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.75); border: 1px solid rgba(255,255,255,.35); padding: .32rem 1.1rem; margin-bottom: 1.5rem; border-radius: 20px; }
+.hero h1 { position: relative; z-index: 2; font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 700; color: #fff; line-height: 1.05; margin-bottom: 1.3rem; text-shadow: 0 3px 28px rgba(0,0,0,.4); }
+.hero h1 em { font-style: italic; color: #a8e6cf; }
+.hero p { position: relative; z-index: 2; font-size: 1.05rem; color: rgba(255,255,255,.82); max-width: 520px; margin: 0 auto 2.5rem; }
+.hero-btns { position: relative; z-index: 2; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+.hero-cta { display: inline-block; background: var(--white); color: var(--sky-dark); padding: 1rem 2.8rem; font-size: .86rem; letter-spacing: .12em; text-transform: uppercase; text-decoration: none; font-weight: 800; border-radius: 40px; transition: all .2s; box-shadow: 0 6px 24px rgba(0,0,0,.25); }
+.hero-cta:hover { background: var(--sky); transform: translateY(-2px); }
+.hero-cta2 { display: inline-block; background: transparent; color: #fff; padding: 1rem 2.4rem; font-size: .86rem; letter-spacing: .12em; text-transform: uppercase; text-decoration: none; font-weight: 700; border-radius: 40px; border: 2px solid rgba(255,255,255,.6); transition: all .2s; }
+.hero-cta2:hover { background: rgba(255,255,255,.1); border-color: #fff; }
+.hero-scroll { position: relative; z-index: 2; margin-top: 4rem; color: rgba(255,255,255,.4); font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: .4rem; }
+.hero-scroll::after { content: ''; width: 1px; height: 38px; background: rgba(255,255,255,.25); }
+
+/* ===== BOOKING BAR ===== */
+.booking-bar { background: var(--sky-dark); padding: 1.8rem 3rem; display: flex; gap: 1.1rem; align-items: flex-end; flex-wrap: wrap; justify-content: center; border-bottom: 4px solid var(--green); }
+.bf { display: flex; flex-direction: column; gap: .3rem; flex: 1; min-width: 140px; }
+.bf label { font-size: .66rem; letter-spacing: .18em; text-transform: uppercase; color: var(--sky-mid); font-weight: 700; }
+.bf input, .bf select { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.22); color: #fff; padding: .65rem .85rem; font-family: 'Nunito', sans-serif; font-size: .88rem; outline: none; border-radius: 6px; transition: border-color .2s; -webkit-appearance: none; }
+.bf input:focus, .bf select:focus { border-color: var(--accent); }
+.bf select option { background: #1a5573; }
+.book-bar-btn { background: var(--accent); color: #fff; border: none; cursor: pointer; border-radius: 30px; padding: .68rem 2rem; font-family: 'Nunito', sans-serif; font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; transition: background .2s; white-space: nowrap; }
+.book-bar-btn:hover { background: #c47e28; }
+
+/* ===== SECTION BASE ===== */
+section { padding: 5.5rem 4rem; }
+.section-label { font-size: .7rem; letter-spacing: .22em; text-transform: uppercase; color: var(--sky-deep); margin-bottom: .5rem; font-weight: 700; }
+h2.section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 4vw, 2.9rem); font-weight: 700; line-height: 1.2; color: var(--brown-dark); margin-bottom: 1.3rem; }
+h2.section-title em { font-style: italic; color: var(--sky-deep); }
+
+/* ===== NEW MANAGEMENT STRIP ===== */
+.new-mgmt { background: linear-gradient(120deg, var(--sky) 0%, #e0f7ec 100%); border-top: 4px solid var(--green); border-bottom: 4px solid var(--sky-deep); padding: 3rem 4rem; display: flex; align-items: center; gap: 2.5rem; flex-wrap: wrap; }
+.mgmt-icon { width: 78px; height: 78px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 30px rgba(58,125,68,.3); }
+.mgmt-icon svg { width: 36px; height: 36px; stroke: #fff; }
+.mgmt-content h3 { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700; color: var(--green-dark); margin-bottom: .4rem; }
+.mgmt-content h3 span { color: var(--sky-dark); font-style: italic; }
+.mgmt-content p { color: var(--muted); max-width: 660px; font-size: .95rem; }
+.mgmt-pills { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: .9rem; }
+.mgmt-pill { background: #fff; color: var(--green-dark); border: 1.5px solid var(--green-mid); border-radius: 20px; font-size: .74rem; font-weight: 700; padding: .28rem .9rem; }
+
+/* ===== ABOUT — full photo background ===== */
+.about { padding: 0; display: grid; grid-template-columns: 1fr 1fr; min-height: 600px; }
+.about-photo { background: url('building.png') center/cover no-repeat; position: relative; min-height: 500px; }
+.about-photo-overlay { position: absolute; inset: 0; background: linear-gradient(120deg, rgba(26,85,115,.55), rgba(35,92,46,.4)); }
+.about-photo-caption { position: absolute; bottom: 2rem; left: 2rem; right: 2rem; }
+.about-photo-caption h3 { font-family: 'Playfair Display', serif; color: #fff; font-size: 1.5rem; font-weight: 700; text-shadow: 0 2px 12px rgba(0,0,0,.5); }
+.about-photo-caption p { color: rgba(255,255,255,.8); font-size: .85rem; margin-top: .3rem; }
+.about-text-wrap { background: #fff; padding: 5rem 4rem; display: flex; flex-direction: column; justify-content: center; }
+.about-text-wrap p { color: var(--muted); margin-bottom: 1.1rem; line-height: 1.9; }
+.stat-row { display: flex; gap: 1.3rem; margin-top: 2rem; flex-wrap: wrap; }
+.stat { background: var(--sky); border-radius: 12px; padding: 1.1rem 1.3rem; text-align: center; flex: 1; min-width: 85px; }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: var(--sky-dark); line-height: 1; }
+.stat-lbl { font-size: .72rem; color: var(--muted); margin-top: .25rem; font-weight: 600; }
+
+/* ===== AMENITIES ===== */
+.amenities { background: var(--off-white); }
+.amenities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.4rem; margin-top: 2.8rem; }
+.amenity-card { background: #fff; border: 2px solid var(--border); padding: 1.8rem 1.6rem; border-radius: 16px; transition: border-color .2s, transform .2s, box-shadow .2s; }
+.amenity-card:hover { border-color: var(--sky-deep); transform: translateY(-4px); box-shadow: 0 12px 36px rgba(42,125,168,.13); }
+.amenity-icon { width: 52px; height: 52px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; border-radius: 14px; }
+.amenity-icon.blue { background: var(--sky); color: var(--sky-dark); }
+.amenity-icon.green { background: var(--green-light); color: var(--green-dark); }
+.amenity-icon.brown { background: var(--brown-light); color: var(--brown-dark); }
+.amenity-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; margin-bottom: .4rem; color: var(--brown-dark); }
+.amenity-card p { font-size: .86rem; color: var(--muted); line-height: 1.7; }
+
+/* ===== ROOMS ===== */
+.rooms { background: var(--sky-dark); }
+.rooms .section-title { color: #fff; } .rooms .section-title em { color: #a8e6cf; } .rooms .section-label { color: var(--sky-mid); }
+.rooms-intro { color: rgba(255,255,255,.62); max-width: 540px; margin-bottom: 2.8rem; }
+.rooms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.4rem; }
+.room-card { border-radius: 16px; overflow: hidden; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); }
+.room-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; transition: transform .5s; }
+.room-card:hover img { transform: scale(1.04); }
+.room-info { padding: 1.3rem 1.5rem; }
+.room-info h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #fff; font-weight: 700; margin-bottom: .2rem; }
+.room-meta { display: flex; justify-content: space-between; align-items: center; margin-top: .7rem; }
+.room-price { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--accent); }
+.room-price span { font-family: 'Nunito', sans-serif; font-size: .7rem; color: rgba(255,255,255,.4); }
+.room-book { font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--green-mid); border: 1px solid var(--green-mid); padding: .42rem 1.1rem; text-decoration: none; border-radius: 20px; font-weight: 700; transition: all .2s; }
+.room-book:hover { background: var(--green); color: #fff; border-color: var(--green); }
+.room-tags { display: flex; gap: .38rem; flex-wrap: wrap; margin-top: .6rem; }
+.tag { font-size: .65rem; letter-spacing: .05em; text-transform: uppercase; color: rgba(255,255,255,.5); background: rgba(255,255,255,.08); border-radius: 12px; padding: .18rem .65rem; }
+
+/* ===== GALLERY ===== */
+.gallery { background: var(--brown-light); padding: 5.5rem 4rem; }
+.gallery .section-title { color: var(--brown-dark); }
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 280px 280px; gap: 1rem; margin-top: 2.5rem; }
+.gallery-item { overflow: hidden; border-radius: 14px; cursor: pointer; position: relative; }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s; }
+.gallery-item:hover img { transform: scale(1.06); }
+.gallery-item .g-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(0deg, rgba(0,0,0,.65) 0%, transparent 100%); color: #fff; font-size: .78rem; font-weight: 600; padding: 1rem .9rem .6rem; letter-spacing: .06em; opacity: 0; transition: opacity .3s; }
+.gallery-item:hover .g-label { opacity: 1; }
+.gallery-item.tall { grid-row: span 2; }
+
+/* ===== POOL TABLE FEATURE ===== */
+.fun-section { background: #0d1f15; padding: 5.5rem 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.fun-section .section-label { color: var(--green-mid); }
+.fun-section .section-title { color: #fff; }
+.fun-section .section-title em { color: #a8e6cf; }
+.fun-text p { color: rgba(255,255,255,.65); margin-bottom: 1.1rem; line-height: 1.9; }
+.fun-pills { display: flex; gap: .7rem; flex-wrap: wrap; margin-top: 1.5rem; }
+.fun-pill { background: rgba(255,255,255,.08); color: rgba(255,255,255,.8); border: 1px solid rgba(255,255,255,.15); border-radius: 20px; font-size: .76rem; font-weight: 700; padding: .35rem 1rem; }
+.fun-img { border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+.fun-img img { width: 100%; display: block; }
+
+/* ===== TESTIMONIALS ===== */
+.testimonials { background: var(--green); text-align: center; padding: 5.5rem 4rem; }
+.testimonials .section-title { color: #fff; } .testimonials .section-title em { color: #a8e6cf; } .testimonials .section-label { color: rgba(255,255,255,.6); }
+.testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.4rem; margin-top: 2.8rem; }
+.testi-card { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); padding: 1.8rem; text-align: left; border-radius: 16px; }
+.stars { color: var(--accent); margin-bottom: .7rem; font-size: .95rem; }
+.testi-card p { color: rgba(255,255,255,.85); font-size: .9rem; line-height: 1.8; margin-bottom: .9rem; }
+.testi-author { font-size: .76rem; color: rgba(255,255,255,.5); font-weight: 700; }
+
+/* ===== MAP SECTION ===== */
+.map-section { background: var(--off-white); padding: 5.5rem 4rem; }
+.map-section .section-title { color: var(--brown-dark); }
+.map-wrap { display: grid; grid-template-columns: 1fr 1.7fr; gap: 2.5rem; margin-top: 2.8rem; align-items: start; }
+.map-cards { display: flex; flex-direction: column; gap: 1.2rem; }
+.map-card { background: #fff; border: 2px solid var(--border); border-radius: 14px; padding: 1.2rem 1.4rem; display: flex; gap: .9rem; align-items: flex-start; }
+.map-card .mc-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; flex-shrink: 0; }
+.mc-icon.blue { background: var(--sky); }
+.mc-icon.green { background: var(--green-light); }
+.mc-icon.brown { background: var(--brown-light); }
+.map-card h4 { font-size: .88rem; font-weight: 700; color: var(--brown-dark); margin-bottom: .18rem; }
+.map-card p, .map-card a { font-size: .83rem; color: var(--muted); line-height: 1.6; }
+.map-card a { color: var(--sky-deep); font-weight: 600; text-decoration: none; }
+.map-card a:hover { text-decoration: underline; }
+.dir-btn { display: inline-flex; align-items: center; gap: .5rem; background: var(--sky-deep); color: #fff; text-decoration: none; padding: .72rem 1.7rem; border-radius: 30px; font-weight: 700; font-size: .8rem; letter-spacing: .08em; margin-top: 1rem; transition: background .2s; }
+.dir-btn:hover { background: var(--sky-dark); }
+.map-frame { border-radius: 16px; overflow: hidden; box-shadow: 0 12px 40px rgba(42,125,168,.15); border: 2px solid var(--border); }
+.map-frame iframe { width: 100%; height: 400px; display: block; border: none; }
+
+/* ===== BOOKING FORM ===== */
+#book { padding: 0; display: grid; grid-template-columns: 1fr 1fr; min-height: 580px; }
+.book-photo { background: url('gate.png') center/cover no-repeat; position: relative; min-height: 380px; }
+.book-photo-overlay { position: absolute; inset: 0; background: rgba(10,40,20,.45); display: flex; align-items: flex-end; padding: 2.5rem; }
+.book-photo-overlay p { color: rgba(255,255,255,.85); font-size: .95rem; font-style: italic; font-family: 'Playfair Display', serif; font-weight: 400; line-height: 1.6; }
+.book-form-wrap { background: var(--sky-dark); padding: 4.5rem 3rem; display: flex; flex-direction: column; justify-content: center; }
+.book-form-wrap .section-title { color: #fff; } .book-form-wrap .section-title em { color: #a8e6cf; }
+.fg { margin-bottom: .95rem; }
+.fg label { display: block; font-size: .67rem; letter-spacing: .15em; text-transform: uppercase; color: var(--sky-mid); margin-bottom: .36rem; font-weight: 700; }
+.fg input, .fg select, .fg textarea { width: 100%; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: #fff; padding: .75rem .95rem; font-family: 'Nunito', sans-serif; font-size: .88rem; outline: none; resize: none; border-radius: 8px; transition: border-color .2s; -webkit-appearance: none; }
+.fg input::placeholder { color: rgba(255,255,255,.3); }
+.fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--accent); }
+.fg select option { background: #1a5573; }
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
+.submit-btn { background: var(--accent); color: #fff; border: none; padding: .95rem; font-family: 'Nunito', sans-serif; font-size: .86rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; cursor: pointer; border-radius: 30px; transition: background .2s; margin-top: .4rem; width: 100%; }
+.submit-btn:hover { background: #c47e28; }
+.success-msg { display: none; background: rgba(58,125,68,.25); border: 1px solid var(--green-mid); color: #a8e6cf; padding: .9rem; text-align: center; font-size: .86rem; margin-top: .9rem; border-radius: 8px; }
+
+/* ===== FOOTER ===== */
+footer { background: #3a2410; color: rgba(255,255,255,.6); padding: 4rem 4rem 2rem; }
+.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 2.5rem; }
+.foot-logo { font-family: 'Playfair Display', serif; font-size: 1.75rem; color: var(--sky-mid); font-weight: 700; text-decoration: none; display: inline-block; margin-bottom: .8rem; }
+.foot-logo span { color: var(--green-mid); font-style: italic; }
+.footer-brand p { font-size: .86rem; line-height: 1.8; max-width: 250px; }
+.footer-col h4 { font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; font-weight: 700; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: .5rem; }
+.footer-col ul li a { font-size: .85rem; color: rgba(255,255,255,.5); text-decoration: none; transition: color .2s; }
+.footer-col ul li a:hover { color: var(--sky-mid); }
+.foot-social { margin-top: 1.3rem; }
+.foot-social h4 { font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin-bottom: .8rem; font-weight: 700; }
+.foot-soc-row { display: flex; gap: .55rem; flex-wrap: wrap; }
+.foot-soc { width: 38px; height: 38px; border: 1px solid rgba(255,255,255,.18); border-radius: 9px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.55); text-decoration: none; transition: all .2s; }
+.foot-soc:hover { border-color: var(--sky-mid); color: var(--sky-mid); }
+.foot-soc svg { width: 16px; height: 16px; fill: currentColor; }
+.foot-hashtag { font-size: .8rem; color: var(--green-mid); font-weight: 600; font-style: italic; margin-top: .45rem; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding-top: 1.4rem; display: flex; justify-content: space-between; font-size: .78rem; color: rgba(255,255,255,.28); flex-wrap: wrap; gap: .8rem; }
+
+/* ===== BACK TO TOP ===== */
+.back-top { position: fixed; bottom: 1.8rem; right: 1.8rem; z-index: 99; width: 42px; height: 42px; background: var(--sky-dark); color: #fff; border: none; border-radius: 10px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,.22); transition: all .2s; opacity: 0; pointer-events: none; }
+.back-top.visible { opacity: 1; pointer-events: all; }
+.back-top:hover { background: var(--green); transform: translateY(-2px); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 960px) {
+  nav { padding: .85rem 1.3rem; }
+  .nav-links, .nav-book { display: none; }
+  section { padding: 4rem 1.5rem; }
+  .gallery { padding: 4rem 1.5rem; }
+  .testimonials { padding: 4rem 1.5rem; }
+  .map-section { padding: 4rem 1.5rem; }
+  .fun-section { padding: 4rem 1.5rem; grid-template-columns: 1fr; gap: 2.5rem; }
+  .new-mgmt { padding: 2.5rem 1.5rem; }
+  .about { grid-template-columns: 1fr; }
+  .about-photo { min-height: 320px; aspect-ratio: 16/9; }
+  .about-text-wrap { padding: 3rem 1.5rem; }
+  .booking-bar { padding: 1.5rem; flex-direction: column; }
+  .bf { min-width: 100%; }
+  .book-bar-btn { width: 100%; }
+  #book { grid-template-columns: 1fr; }
+  .book-photo { min-height: 240px; }
+  .book-form-wrap { padding: 3rem 1.5rem; }
+  .frow { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+  .gallery-item.tall { grid-row: span 1; }
+  .map-wrap { grid-template-columns: 1fr; }
+  .map-frame iframe { height: 300px; }
+}
+@media (max-width: 560px) {
+  .footer-grid { grid-template-columns: 1fr; }
+  .rooms-grid { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .stat-row { gap: .8rem; }
+  .hero h1 { font-size: 2.8rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BANNER -->
+<div class="mgmt-banner">
+  <span class="pill"> New</span>
+  Lilies Hotel is <em>under exciting new management</em> — refreshed spaces, elevated experience. Welcome!
+</div>
+
+<!-- SIDE OVERLAY -->
+<div class="side-overlay" id="sideOverlay" onclick="closeMenu()"></div>
+
+<!-- SIDE MENU -->
+<aside class="side-menu" id="sideMenu">
+  <div class="side-header">
+    <span class="side-logo">Lilies <span>Hotel</span></span>
+    <button class="side-close" onclick="closeMenu()">✕</button>
+  </div>
+
+  <div class="side-sec">
+    <h4>Quick Links</h4>
+    <ul class="side-links">
+      <li><a href="#about" onclick="closeMenu()"><span class="ico"></span> About the Hotel</a></li>
+      <li><a href="#amenities" onclick="closeMenu()"><span class="ico"></span> Amenities & Services</a></li>
+      <li><a href="#rooms" onclick="closeMenu()"><span class="ico"></span> Rooms & Suites</a></li>
+      <li><a href="#gallery" onclick="closeMenu()"><span class="ico"></span> Photo Gallery</a></li>
+      <li><a href="#fun" onclick="closeMenu()"><span class="ico"></span> Fun & Recreation</a></li>
+      <li><a href="#map-loc" onclick="closeMenu()"><span class="ico"></span> Location Map</a></li>
+      <li><a href="#book" onclick="closeMenu()"><span class="ico"></span> Make a Reservation</a></li>
+      <li><a href="tel:+254724656102"><span class="ico"></span> Call +254 724 656 102</a></li>
+      <li><a href="mailto:stephengichingakiguta@gmail.com"><span class="ico"></span> Email Us</a></li>
+    </ul>
+  </div>
+
+  <div class="side-social-sec">
+    <h4>Connect On Social Media</h4>
+    <div class="soc-icons">
+      <a href="https://facebook.com/lilieshotel" target="_blank" class="soc-ico" title="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+      <a href="https://instagram.com/lilieshotel" target="_blank" class="soc-ico" title="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+      <a href="https://youtube.com/@lilieshotel" target="_blank" class="soc-ico" title="YouTube"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#071a0f"/></svg></a>
+      <a href="https://twitter.com/lilieshotel" target="_blank" class="soc-ico" title="X / Twitter"><svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20" stroke="currentColor" stroke-width="2" fill="none"/></svg></a>
+      <a href="https://tiktok.com/@lilieshotel" target="_blank" class="soc-ico" title="TikTok"><svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg></a>
+    </div>
+    <div class="hashtag">#LiliesHotel</div>
+  </div>
+
+  <div class="nl-sec">
+    <h4>Subscribe To Our Newsletter</h4>
+    <p>Get exclusive deals, offers &amp; updates straight to your inbox.</p>
+    <div class="nl-form">
+      <input type="text" placeholder="Your full name" id="nl-name" />
+      <input type="email" placeholder="Your email address" id="nl-email" />
+      <button onclick="subscribeNL()">Subscribe Now</button>
+    </div>
+    <div class="nl-done" id="nlDone">🎉 You're subscribed! Thank you.</div>
+  </div>
+</aside>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">
+    <span>
+      Lilies <span class="lily">Hotel</span>
+      <span class="tagline">& Guest Rooms · Nairobi</span>
+    </span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#amenities">Amenities</a></li>
+    <li><a href="#rooms">Rooms</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#map-loc">Location</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="tel:+254724656102" class="nav-phone" title="Call us">📞</a>
+    <button class="nav-book" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'})">Book Now</button>
+    <button class="hamburger" onclick="openMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO —  -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-new-badge">✦ Under New Management — Fresh Start, Same Heart</div>
+  <div class="hero-badge">Nairobi, Kenya · Comfort &amp; Value</div>
+  <h1>Welcome to<br><em>Lilies Hotel</em></h1>
+  <p>Your home away from home in Nairobi, with warm hospitality, clean rooms, great value, and a sparkling outdoor pool.</p>
+  <div class="hero-btns">
+    <a href="#book" class="hero-cta">Book Your Stay</a>
+    <a href="#gallery" class="hero-cta2">View Gallery</a>
+  </div>
+  <div class="hero-scroll">Scroll to explore</div>
+</section>
+
+<!-- BOOKING BAR -->
+<div class="booking-bar">
+  <div class="bf"><label>Check-in</label><input type="date" id="checkin" /></div>
+  <div class="bf"><label>Check-out</label><input type="date" id="checkout" /></div>
+  <div class="bf"><label>Guests</label>
+    <select><option>1 Guest</option><option>2 Guests</option><option>3 Guests</option><option>4 Guests</option></select>
+  </div>
+  <div class="bf"><label>Room Type</label>
+    <select><option>Any Room</option><option>Standard Room</option><option>Deluxe Room</option><option>Executive Suite</option></select>
+  </div>
+  <button class="book-bar-btn" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'})">Check Availability</button>
+</div>
+
+<!-- NEW MANAGEMENT SECTION -->
+<div class="new-mgmt">
+  <div class="mgmt-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+    </svg>
+  </div>
+  <div class="mgmt-content">
+    <h3>Under <span>New Management</span> — A Fresh Chapter Begins</h3>
+    <p>We're thrilled to welcome you to a reimagined Lilies Hotel. Our new management team has invested in upgraded rooms, enhanced services, and a renewed commitment to making every guest feel truly at home. Same beloved Nairobi location — brand new experience awaiting you.</p>
+    <div class="mgmt-pills">
+      <span class="mgmt-pill">✓ Renovated Rooms</span>
+      <span class="mgmt-pill">✓ Enhanced Pool Area</span>
+      <span class="mgmt-pill">✓ Pool &amp; Billiards Tables</span>
+      <span class="mgmt-pill">✓ Upgraded WiFi</span>
+      <span class="mgmt-pill">✓ New Management Team</span>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT — building photo as visible background panel -->
+<div class="about" id="about">
+  <div class="about-photo">
+    <div class="about-photo-overlay"></div>
+    <div class="about-photo-caption">
+      <h3>Lilies Hotel &amp; Guest Rooms</h3>
+      <p>A warm, welcoming home in the heart of Nairobi</p>
+    </div>
+  </div>
+  <div class="about-text-wrap">
+    <p class="section-label">Our Story</p>
+    <h2 class="section-title">A Bloom of<br><em>Timeless Hospitality</em></h2>
+    <p>Lilies Hotel has been welcoming guests from all over Kenya and beyond, offering a seamless blend of warm African hospitality and comfortable, affordable lodging. Our property features spacious rooms, a beautiful outdoor swimming pool, and a relaxed outdoor recreation area.</p>
+    <p>Now under fresh leadership, we've elevated every corner of the hotel while preserving the warmth and character our guests have always loved. Whether you're here for business or leisure, Lilies Hotel is your home away from home.</p>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-num">★★★</div><div class="stat-lbl">Rated Property</div></div>
+      <div class="stat"><div class="stat-num">6+</div><div class="stat-lbl">Years of Service</div></div>
+      <div class="stat"><div class="stat-num">4.3★</div><div class="stat-lbl">Guest Rating</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- AMENITIES -->
+<section class="amenities" id="amenities">
+  <div style="max-width:1200px;margin:0 auto">
+    <p class="section-label">What We Offer</p>
+    <h2 class="section-title">Our <em>Amenities</em></h2>
+    <div class="amenities-grid">
+      <div class="amenity-card">
+        <div class="amenity-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="26" height="26"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></div>
+        <h3>Daily Housekeeping</h3>
+        <p>Your room refreshed every morning with fresh linens, spotless surfaces, and replenished toiletries.</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon brown"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="26" height="26"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+        <h3>Breakfast Available</h3>
+        <p>Start your day right — freshly prepared local dishes and beverages served every morning.</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="26" height="26"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <h3>Self-Serve Laundry</h3>
+        <p>On-site laundry facilities with modern washers and dryers available on your own schedule.</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="26" height="26"><circle cx="12" cy="12" r="10"/><path d="M2 12h4M18 12h4M12 2v4M12 18v4"/></svg></div>
+        <h3>Outdoor Pool</h3>
+        <p>Dive into our large, sparkling outdoor swimming pool surrounded by shaded seating and lush greenery.</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="26" height="26"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <h3>24-Hour Front Desk</h3>
+        <p>Our friendly team is on hand around the clock for check-in, assistance, and local recommendations.</p>
+      </div>
+      <div class="amenity-card">
+        <div class="amenity-icon brown"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="26" height="26"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <h3>Free Parking</h3>
+        <p>Spacious, secure on-site parking for all hotel guests — complimentary, any time of day or night.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROOMS — real hotel photos -->
+<section class="rooms" id="rooms">
+  <div style="max-width:1200px;margin:0 auto">
+    <p class="section-label">Accommodation</p>
+    <h2 class="section-title">Our <em>Rooms &amp; Suites</em></h2>
+    <p class="rooms-intro">Clean, comfortable, and thoughtfully furnished — every room is designed for a restful stay.</p>
+    <div class="rooms-grid">
+      <div class="room-card">
+        <img src="room_standard.png" alt="Standard Room" loading="lazy" />
+        <div class="room-info">
+          <h3>Standard Room</h3>
+          <div class="room-tags"><span class="tag">Double Bed</span><span class="tag">En-suite</span><span class="tag">Free WiFi</span></div>
+          <div class="room-meta">
+            <div class="room-price">KES 1,500 <span>/ night</span></div>
+            <a href="#book" class="room-book">Book</a>
+          </div>
+        </div>
+      </div>
+      <div class="room-card">
+        <img src="room_deluxe.png" alt="Deluxe Room" loading="lazy" />
+        <div class="room-info">
+          <h3>Deluxe Room</h3>
+          <div class="room-tags"><span class="tag">Four-Poster Bed</span><span class="tag">Private Patio</span><span class="tag">En-suite</span></div>
+          <div class="room-meta">
+            <div class="room-price">KES 2,000 <span>/ night</span></div>
+            <a href="#book" class="room-book">Book</a>
+          </div>
+        </div>
+      </div>
+      <div class="room-card">
+        <img src="building.png" alt="Executive Suite" loading="lazy" />
+        <div class="room-info">
+          <h3>Executive Suite</h3>
+          <div class="room-tags"><span class="tag">Balcony</span><span class="tag">Living Area</span><span class="tag">Minibar</span></div>
+          <div class="room-meta">
+            <div class="room-price">KES 3,000 <span>/ night</span></div>
+            <a href="#book" class="room-book">Book</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY — all real hotel photos -->
+<section class="gallery" id="gallery">
+  <div style="max-width:1200px;margin:0 auto">
+    <p class="section-label">The Experience</p>
+    <h2 class="section-title">Life at <em>Lilies Hotel</em></h2>
+    <div class="gallery-grid">
+      <div class="gallery-item tall">
+        <img src="pool.webp" alt="Swimming Pool" loading="lazy" />
+        <div class="g-label"> Outdoor Swimming Pool</div>
+      </div>
+      <div class="gallery-item">
+        <img src="room_deluxe.png" alt="Deluxe Room" loading="lazy" />
+        <div class="g-label"> Deluxe Room</div>
+      </div>
+      <div class="gallery-item">
+        <img src="room_standard.png" alt="Standard Room" loading="lazy" />
+        <div class="g-label"> Standard Room</div>
+      </div>
+      <div class="gallery-item">
+        <img src="pooltable.jpeg" alt="Pool Tables" loading="lazy" />
+        <div class="g-label">🎱 Billiards Area</div>
+      </div>
+      <div class="gallery-item">
+        <img src="building.png" alt="Hotel Exterior" loading="lazy" />
+        <div class="g-label">🏨 Hotel Exterior</div>
+      </div>
+      <div class="gallery-item">
+        <img src="gate.png" alt="Hotel Entrance" loading="lazy" />
+        <div class="g-label">🚪 Hotel Entrance</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUN & RECREATION — pool table feature section -->
+<section class="fun-section" id="fun">
+  <div class="fun-text">
+    <p class="section-label">Fun &amp; Recreation</p>
+    <h2 class="section-title">More Than<br><em>Just a Room</em></h2>
+    <p>After a long day, unwind at Lilies Hotel's outdoor recreation zone — shoot a game of pool on our full-size billiard tables, relax under the shaded outdoor seating area, or take a refreshing dip in our spacious swimming pool.</p>
+    <p>Our recreation area is open daily and is the perfect social spot for guests who want to kick back and enjoy great company in a relaxed environment.</p>
+    <div class="fun-pills">
+      <span class="fun-pill"> Billiards Tables</span>
+      <span class="fun-pill"> Swimming Pool</span>
+      <span class="fun-pill"> Shaded Seating</span>
+      <span class="fun-pill"> Garden Area</span>
+      <span class="fun-pill"> Outdoor Bar</span>
+    </div>
+  </div>
+  <div class="fun-img">
+    <img src="pooltable.jpeg" alt="Billiards and recreation area at Lilies Hotel" loading="lazy" />
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <p class="section-label">Guest Reviews</p>
+  <h2 class="section-title">What Our <em>Guests Say</em></h2>
+  <div class="testi-grid" style="max-width:1100px;margin:2.8rem auto 0">
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p>"The new management has truly transformed this place. Everything from the rooms to the breakfast was fresher and better organised than my last visit. Highly recommend!"</p>
+      <div class="testi-author">— Amara Nyambura, Nairobi</div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p>"Beautifully maintained and quiet. The 24-hour front desk team sorted my early checkout without a fuss. The pool is amazing — perfect after a long drive. Will be back."</p>
+      <div class="testi-author">— James O., Mombasa</div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p>"The pool, the free parking, the daily housekeeping — everything worked seamlessly. And the billiards tables were a great bonus! Felt like a real getaway. Loved it."</p>
+      <div class="testi-author">— Joseph M., Kisumu</div>
+    </div>
+  </div>
+</section>
+
+<!-- MAP LOCATION -->
+<section class="map-section" id="map-loc">
+  <div style="max-width:1200px;margin:0 auto">
+    <p class="section-label">Find Us</p>
+    <h2 class="section-title">Our <em>Location</em></h2>
+    <div class="map-wrap">
+      <div class="map-cards">
+        <div class="map-card">
+          <div class="mc-icon blue"></div>
+          <div>
+            <h4>Address</h4>
+            <p>Thika Road, Nairobi<br>P.O. Box 00100, Kenya</p>
+          </div>
+        </div>
+        <div class="map-card">
+          <div class="mc-icon green"></div>
+          <div>
+            <h4>Phone</h4>
+            <p><a href="tel:+254724656102">+254 724 656 102</a></p>
+          </div>
+        </div>
+        <div class="map-card">
+          <div class="mc-icon brown"></div>
+          <div>
+            <h4>Email</h4>
+            <p><a href="mailto:reservations@lilieshotel.co.ke">reservations@lilieshotel.co.ke</a></p>
+          </div>
+        </div>
+        <div class="map-card">
+          <div class="mc-icon blue"></div>
+          <div>
+            <h4>Front Desk Hours</h4>
+            <p>Open 24 hours · 7 days a week<br>Check-in: 2:00 PM · Check-out: 11:00 AM</p>
+          </div>
+        </div>
+        <a href="https://maps.google.com/?q=Thika+Road+Nairobi+Kenya" target="_blank" class="dir-btn">🧭 &nbsp;Get Directions on Google Maps</a>
+      </div>
+      <div class="map-frame">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15955.277!2d36.8769!3d-1.2641!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f17a953c3fcf1%3A0x7b93b76f3fcf6f87!2sThika%20Road%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1680000000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Lilies Hotel Location"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING FORM — gate photo on left -->
+<section id="book" style="padding:0;">
+  <div class="book-photo">
+    <div class="book-photo-overlay">
+      <p>"Same great location, a whole new experience — welcome to the new Lilies Hotel."</p>
+    </div>
+  </div>
+  <div class="book-form-wrap">
+    <p class="section-label">Reservations</p>
+    <h2 class="section-title">Book Your <em>Stay</em></h2>
+    <div class="frow">
+      <div class="fg"><label>First Name</label><input type="text" placeholder="Jane" id="fname" /></div>
+      <div class="fg"><label>Last Name</label><input type="text" placeholder="Doe" id="lname" /></div>
+    </div>
+    <div class="fg"><label>Email Address</label><input type="email" placeholder="jane@example.com" id="email" /></div>
+    <div class="fg"><label>Phone Number</label><input type="tel" placeholder="+254 700 000 000" id="phone" /></div>
+    <div class="frow">
+      <div class="fg"><label>Check-in Date</label><input type="date" id="ci" /></div>
+      <div class="fg"><label>Check-out Date</label><input type="date" id="co" /></div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label>Room Type</label>
+        <select id="rtype"><option value="">Select room</option><option>Standard Room</option><option>Deluxe Room</option><option>Executive Suite</option></select>
+      </div>
+      <div class="fg"><label>No. of Guests</label>
+        <select id="guests"><option>1 Guest</option><option>2 Guests</option><option>3 Guests</option><option>4 Guests</option></select>
+      </div>
+    </div>
+    <div class="fg"><label>Special Requests</label><textarea rows="2" placeholder="Dietary needs, celebrations, arrival time, etc."></textarea></div>
+    <button class="submit-btn" onclick="submitBooking()">Confirm Reservation</button>
+    <div class="success-msg" id="successMsg">✓ Reservation received! We'll confirm via email or call within 2 hours.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="foot-logo">Lilies <span>Hotel</span></a>
+      <p>A place where every detail blooms with care. Now under new management — come experience the difference.</p>
+      <div class="foot-social">
+        <h4>Connect On Social Media</h4>
+        <div class="foot-soc-row">
+          <a href="https://facebook.com/lilieshotel" target="_blank" class="foot-soc" title="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a href="https://instagram.com/lilieshotel" target="_blank" class="foot-soc" title="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="https://youtube.com/@lilieshotel" target="_blank" class="foot-soc" title="YouTube"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#3a2410"/></svg></a>
+          <a href="https://twitter.com/lilieshotel" target="_blank" class="foot-soc" title="X / Twitter"><svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20" stroke="currentColor" stroke-width="2" fill="none"/></svg></a>
+          <a href="https://tiktok.com/@lilieshotel" target="_blank" class="foot-soc" title="TikTok"><svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg></a>
+        </div>
+        <div class="foot-hashtag">#LiliesHotel</div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#amenities">Amenities</a></li>
+        <li><a href="#rooms">Rooms &amp; Suites</a></li>
+        <li><a href="#gallery">Photo Gallery</a></li>
+        <li><a href="#fun">Fun &amp; Recreation</a></li>
+        <li><a href="#map-loc">Location Map</a></li>
+        <li><a href="#book">Reservations</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Amenities</h4>
+      <ul>
+        <li><a href="#">Daily Housekeeping</a></li>
+        <li><a href="#">Breakfast Service</a></li>
+        <li><a href="#">Self-Serve Laundry</a></li>
+        <li><a href="#">Outdoor Pool</a></li>
+        <li><a href="#">Billiards Tables</a></li>
+        <li><a href="#">24-Hr Front Desk</a></li>
+        <li><a href="#">Free Parking</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact Us</h4>
+      <ul>
+        <li><a href="#">📍 Thika Road, Nairobi</a></li>
+        <li><a href="tel:+254724656102">📞 +254 724 656 102</a></li>
+        <li><a href="mailto:reservations@lilieshotel.co.ke">✉️ reservations@lilieshotel.co.ke</a></li>
+        <li><a href="#map-loc">🗺️ View on Map</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Lilies Hotel. All rights reserved. Under New Management. GM: Stephen Gichinga Kiguta</span>
+    <span>Privacy Policy · Terms of Service</span>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  const today = new Date().toISOString().split('T')[0];
+  document.querySelectorAll('input[type="date"]').forEach(el => el.min = today);
+
+  function openMenu() {
+    document.getElementById('sideMenu').classList.add('open');
+    document.getElementById('sideOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    document.getElementById('sideMenu').classList.remove('open');
+    document.getElementById('sideOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function subscribeNL() {
+    const e = document.getElementById('nl-email').value.trim();
+    if (!e || !e.includes('@')) { alert('Please enter a valid email.'); return; }
+    document.getElementById('nlDone').style.display = 'block';
+    document.getElementById('nl-name').value = '';
+    document.getElementById('nl-email').value = '';
+  }
+  function submitBooking() {
+    const f = document.getElementById('fname').value.trim();
+    const l = document.getElementById('lname').value.trim();
+    const e = document.getElementById('email').value.trim();
+    const ci = document.getElementById('ci').value;
+    const co = document.getElementById('co').value;
+    if (!f || !l || !e || !ci || !co) { alert('Please fill in all required fields.'); return; }
+    document.getElementById('successMsg').style.display = 'block';
+    document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  window.addEventListener('scroll', () => {
+    document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+  });
+</script>
+</body>
+</html>
