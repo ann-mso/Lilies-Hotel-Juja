@@ -286,9 +286,34 @@ footer { background: #3a2410; color: rgba(255,255,255,.6); padding: 4rem 4rem 2r
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 960px) {
-  .nav-links {
-    display: none;
+
+  nav {
+    padding: .85rem 1.2rem;
   }
+
+  /* ❌ HIDE TOP NAV LINKS COMPLETELY */
+  .nav-links {
+    display: none !important;
+  }
+
+  /* keep logo clean */
+  .nav-logo {
+    font-size: 1.2rem;
+  }
+
+  /* keep only actions visible */
+  .nav-actions {
+    gap: .5rem;
+  }
+
+  /* optional: shrink book button */
+  .nav-book {
+    padding: .45rem 1rem;
+    font-size: .7rem;
+  }
+}
+.hamburger {
+  display: flex;
 }
 
     .nav-book {
