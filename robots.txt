@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ann-mso.github.io/Lilies-Hotel-Juja/sitemap.xml
